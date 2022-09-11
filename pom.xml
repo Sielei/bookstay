@@ -8,6 +8,8 @@
         <module>common</module>
         <module>reservation-service</module>
         <module>reservation-service/reservation-domain</module>
+        <module>payment-service</module>
+        <module>notification-service</module>
     </modules>
 
     <parent>
@@ -33,7 +35,7 @@
             </dependency>
             <dependency>
                 <groupId>com.bstay</groupId>
-                <artifactId>reservation-domain</artifactId>
+                <artifactId>reservation-domain-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

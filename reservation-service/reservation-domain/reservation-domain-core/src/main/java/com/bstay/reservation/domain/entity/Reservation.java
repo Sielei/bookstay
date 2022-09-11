@@ -5,7 +5,7 @@ import com.bstay.domain.valueobject.Money;
 import com.bstay.domain.valueobject.ReservationId;
 import com.bstay.domain.valueobject.ReservationItemId;
 import com.bstay.domain.valueobject.ReservationStatus;
-import com.bstay.reservation.domain.exception.ReservationException;
+import com.bstay.reservation.domain.exception.ReservationDomainException;
 
 import java.util.Date;
 import java.util.List;
@@ -67,20 +67,20 @@ public class Reservation extends AggregateRoot<ReservationId> {
 
     public void cancelReservation(){
         if (reservationStatus == ReservationStatus.RESERVED){
-            throw new ReservationException("Reservation cannot be cancelled at this stage.");
+            throw new ReservationDomainException("Reservation cannot be cancelled at this stage.");
         }
         reservationStatus = ReservationStatus.CANCELLED;
     }
     public void payForReservation(){
         if (reservationStatus != ReservationStatus.PENDING){
-            throw new ReservationException("Cannot pay for reservation at this stage.");
+            throw new ReservationDomainException("Cannot pay for reservation at this stage.");
         }
         reservationStatus = ReservationStatus.PAID;
     }
 
     public void approveReservation(){
         if (reservationStatus != ReservationStatus.PAID){
-            throw new ReservationException("Cannot Approve reservation at this stage.");
+            throw new ReservationDomainException("Cannot Approve reservation at this stage.");
         }
         reservationStatus = ReservationStatus.APPROVED;
     }

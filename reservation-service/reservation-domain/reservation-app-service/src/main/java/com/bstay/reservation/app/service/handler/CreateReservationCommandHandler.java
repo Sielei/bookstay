@@ -18,9 +18,8 @@ public class CreateReservationCommandHandler {
 
     public CreateReservationResponse createReservation(CreateReservationCommand createReservationCommand) {
         ReservationCreatedEvent reservationCreatedEvent = createReservationHelper.persistReservation(createReservationCommand);
-        CreateReservationResponse createReservationResponse = reservationDataMapper
+        return reservationDataMapper
                 .reservationToCreateReservationResponse(reservationCreatedEvent.getReservation());
-        return createReservationResponse;
     }
 
 }

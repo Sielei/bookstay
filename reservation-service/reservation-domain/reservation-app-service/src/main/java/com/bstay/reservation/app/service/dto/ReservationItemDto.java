@@ -7,5 +7,6 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Builder
 public record ReservationItemDto(UUID roomId, UUID roomOption, Integer quantity, BigDecimal cost) {
 }

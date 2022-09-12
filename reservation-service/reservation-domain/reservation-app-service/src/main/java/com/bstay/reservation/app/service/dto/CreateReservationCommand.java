@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+@Builder
 public record CreateReservationCommand(Date checkinDate, Date checkoutDate,
                                        List<ReservationItemDto> reservationItemDtos, BigDecimal reservationTotal) {
 

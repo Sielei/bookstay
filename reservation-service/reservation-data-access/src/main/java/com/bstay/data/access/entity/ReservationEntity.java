@@ -12,12 +12,11 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "reservations")
-@Getter @Setter @ToString @RequiredArgsConstructor
+@Getter @Setter
 @AllArgsConstructor @NoArgsConstructor @Builder
 public class ReservationEntity {
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;
-
 
 }

@@ -1,10 +1,17 @@
 package com.bstay.reservation.app.service.domain;
 
+import com.bstay.domain.valueobject.ReservationId;
+import com.bstay.domain.valueobject.ReservationStatus;
 import com.bstay.reservation.app.service.dto.CreateReservationCommand;
+import com.bstay.reservation.app.service.dto.CreateReservationResponse;
 import com.bstay.reservation.app.service.dto.ReservationItemDto;
+import com.bstay.reservation.app.service.mapper.ReservationDataMapper;
+import com.bstay.reservation.app.service.ports.input.service.ReservationApplicationService;
 import com.bstay.reservation.app.service.ports.output.repository.ReservationRepository;
-import com.bstay.reservation.domain.service.ReservationDomainService;
+import com.bstay.reservation.domain.entity.Reservation;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +22,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = ReservationTestConfiguration.class)
 public class ReservationApplicationTest {
@@ -23,7 +34,10 @@ public class ReservationApplicationTest {
     private ReservationRepository reservationRepository;
 
     @Autowired
-    private ReservationDomainService reservationDomainService;
+    private ReservationApplicationService reservationApplicationService;
+
+    @Autowired
+    private ReservationDataMapper reservationDataMapper;
 
     private CreateReservationCommand createReservationCommand;
 
@@ -48,5 +62,20 @@ public class ReservationApplicationTest {
                 ))
                 .reservationTotal(new BigDecimal("290.00"))
                 .build();
+
+        Reservation reservation = reservationDataMapper.createReservationCommandToReservation(createReservationCommand);
+        reservation.setId(new ReservationId(UUID.fromString("158a17aa-7d93-4348-b72b-c4ab6f9f56db")));
+
+        when(reservationRepository.save(any(Reservation.class))).thenReturn(reservation);
+    }
+
+    @Test
+    @DisplayName("Test Create Reservation")
+    void testCreateReservation(){
+        CreateReservationResponse createReservationResponse = reservationApplicationService.createReservation(
+                createReservationCommand);
+        assertEquals(createReservationResponse.reservationStatus(), ReservationStatus.INITIAL,
+                "Created reservation should be in INITIAL state");
+        assertEquals(createReservationResponse.message(), "Reservation created successfully.");
     }
 }

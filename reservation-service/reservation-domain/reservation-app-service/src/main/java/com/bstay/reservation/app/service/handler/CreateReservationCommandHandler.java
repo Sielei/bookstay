@@ -5,7 +5,9 @@ import com.bstay.reservation.app.service.dto.CreateReservationResponse;
 import com.bstay.reservation.app.service.helper.CreateReservationHelper;
 import com.bstay.reservation.app.service.mapper.ReservationDataMapper;
 import com.bstay.reservation.domain.event.ReservationCreatedEvent;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CreateReservationCommandHandler {
 
     private final ReservationDataMapper reservationDataMapper;

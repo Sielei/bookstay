@@ -1,7 +1,9 @@
 package com.bstay.reservation.app.service.domain;
 
+import com.bstay.reservation.app.service.ports.input.service.ReservationApplicationService;
 import com.bstay.reservation.app.service.ports.output.repository.ReservationRepository;
 import com.bstay.reservation.domain.service.ReservationDomainService;
+import com.bstay.reservation.domain.service.ReservationDomainServiceImpl;
 import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +17,12 @@ public class ReservationTestConfiguration {
     }
 
     @Bean
+    ReservationApplicationService reservationApplicationService(){
+        return Mockito.mock(ReservationApplicationService.class);
+    }
+
+    @Bean
     ReservationDomainService reservationDomainService(){
-        return Mockito.mock(ReservationDomainService.class);
+        return new ReservationDomainServiceImpl();
     }
 }

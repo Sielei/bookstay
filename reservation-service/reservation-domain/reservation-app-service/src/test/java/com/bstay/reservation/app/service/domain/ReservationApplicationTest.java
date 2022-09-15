@@ -74,6 +74,7 @@ public class ReservationApplicationTest {
     void testCreateReservation(){
         CreateReservationResponse createReservationResponse = reservationApplicationService.createReservation(
                 createReservationCommand);
+        System.out.println(createReservationResponse);
         assertEquals(createReservationResponse.reservationStatus(), ReservationStatus.INITIAL,
                 "Created reservation should be in INITIAL state");
         assertEquals(createReservationResponse.message(), "Reservation created successfully.");

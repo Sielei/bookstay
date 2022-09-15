@@ -16,10 +16,6 @@ public class ReservationTestConfiguration {
         return Mockito.mock(ReservationRepository.class);
     }
 
-    @Bean
-    ReservationApplicationService reservationApplicationService(){
-        return Mockito.mock(ReservationApplicationService.class);
-    }
 
     @Bean
     ReservationDomainService reservationDomainService(){

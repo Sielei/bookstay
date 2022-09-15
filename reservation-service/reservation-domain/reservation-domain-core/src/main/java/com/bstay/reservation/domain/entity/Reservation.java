@@ -56,6 +56,25 @@ public class Reservation extends AggregateRoot<ReservationId> {
         setId(new ReservationId(UUID.randomUUID()));
         reservationStatus = ReservationStatus.INITIAL;
         initializeReservationItems();
+        verifyTotal();
+        verifyReservationItemsTotal();
+    }
+
+    private void verifyTotal() {
+        if (reservationTotal == null || !reservationTotal.isGreaterThanZero()){
+            throw new ReservationDomainException("Reservation amount should be greater than zero!");
+        }
+    }
+
+    private void verifyReservationItemsTotal() {
+        Money reservationItemsTotal = reservationItems.stream()
+                .map(ReservationItem::getCost)
+                .reduce(Money.ZERO, Money::add);
+
+        if (!reservationTotal.equals(reservationItemsTotal)){
+            throw new ReservationDomainException("Reservation total: " + reservationTotal.getAmount() +
+                    " is not equal to reservation items total: " + reservationItemsTotal.getAmount());
+        }
     }
 
     private void initializeReservationItems() {

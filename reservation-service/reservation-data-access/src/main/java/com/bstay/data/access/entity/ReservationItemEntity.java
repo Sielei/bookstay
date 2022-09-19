@@ -14,7 +14,7 @@ import java.util.UUID;
 public class ReservationItemEntity {
     @Id
     @Column(name = "id", nullable = false)
-    private UUID id;
+    private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "reservation_id")

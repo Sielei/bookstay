@@ -10,6 +10,7 @@
         <module>reservation-service/reservation-domain</module>
         <module>payment-service</module>
         <module>notification-service</module>
+        <module>infrastructure</module>
     </modules>
 
     <parent>

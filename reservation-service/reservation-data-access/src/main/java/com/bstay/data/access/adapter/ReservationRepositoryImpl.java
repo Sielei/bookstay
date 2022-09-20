@@ -27,6 +27,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
     @Override
     public Optional<Reservation> findById(ReservationId reservationId) {
-        return Optional.empty();
+        Optional<ReservationEntity> reservationEntity = reservationJpaRepository.findById(reservationId.getValue());
+        return reservationEntity.map(reservationMapper::reservationEntityToReservation);
     }
 }

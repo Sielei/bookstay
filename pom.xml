@@ -11,6 +11,7 @@
         <module>payment-service</module>
         <module>notification-service</module>
         <module>infrastructure</module>
+        <module>common/common-application</module>
     </modules>
 
     <parent>

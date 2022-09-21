@@ -13,6 +13,10 @@
     <dependencies>
         <dependency>
             <groupId>com.bstay</groupId>
+            <artifactId>common-application</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.bstay</groupId>
             <artifactId>reservation-app-service</artifactId>
         </dependency>
         <dependency>

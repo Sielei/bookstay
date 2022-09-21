@@ -8,12 +8,14 @@ import com.bstay.domain.valueobject.RoomId;
 import com.bstay.domain.valueobject.RoomOptionId;
 import com.bstay.reservation.domain.entity.Reservation;
 import com.bstay.reservation.domain.entity.ReservationItem;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class ReservationMapper {
     public ReservationEntity reservationToReservationEntity(Reservation reservation) {
         return ReservationEntity.builder()
@@ -51,7 +53,6 @@ public class ReservationMapper {
     private List<ReservationItem> reservationItemsEntityToReservationItems(List<ReservationItemEntity> reservationItems) {
         return reservationItems.stream()
                 .map(reservationItemEntity -> ReservationItem.builder()
-                        .reservationId(new ReservationId(reservationItemEntity.getReservation().getId()))
                         .roomId(new RoomId(reservationItemEntity.getRoomId()))
                         .roomOptionId(new RoomOptionId(reservationItemEntity.getRoomOption()))
                         .quantity(reservationItemEntity.getQuantity())

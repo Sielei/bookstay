@@ -38,12 +38,32 @@
             </dependency>
             <dependency>
                 <groupId>com.bstay</groupId>
+                <artifactId>common-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bstay</groupId>
                 <artifactId>reservation-domain-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.bstay</groupId>
                 <artifactId>reservation-app-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bstay</groupId>
+                <artifactId>reservation-data-access</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bstay</groupId>
+                <artifactId>reservation-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bstay</groupId>
+                <artifactId>reservation-messaging</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

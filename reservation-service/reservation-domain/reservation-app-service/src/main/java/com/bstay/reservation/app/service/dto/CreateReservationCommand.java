@@ -11,6 +11,6 @@ import java.util.List;
 
 @Builder
 public record CreateReservationCommand(Date checkinDate, Date checkoutDate,
-                                       List<ReservationItemDto> reservationItemDtos, BigDecimal reservationTotal) {
+                                       List<ReservationItemDto> reservationItems, BigDecimal reservationTotal) {
 
 }

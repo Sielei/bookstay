@@ -26,16 +26,16 @@ public class ReservationDataMapper {
         return Reservation.builder()
                 .checkInDate(createReservationCommand.checkinDate())
                 .checkoutDate(createReservationCommand.checkoutDate())
-                .reservationItems(reservationItemDtosToReservationItems(createReservationCommand.reservationItemDtos()))
+                .reservationItems(reservationItemDtosToReservationItems(createReservationCommand.reservationItems()))
                 .reservationTotal(new Money(createReservationCommand.reservationTotal()))
                 .build();
     }
 
-    private List<ReservationItem> reservationItemDtosToReservationItems(List<ReservationItemDto> reservationItemDtos) {
-        return reservationItemDtos.stream()
+    private List<ReservationItem> reservationItemDtosToReservationItems(List<ReservationItemDto> reservationItems) {
+        return reservationItems.stream()
                 .map(reservationItemDto -> ReservationItem.builder()
                         .roomId(new RoomId(reservationItemDto.roomId()))
-                        .roomOptionId(new RoomOptionId(reservationItemDto.roomId()))
+                        .roomOptionId(new RoomOptionId(reservationItemDto.roomOption()))
                         .quantity(reservationItemDto.quantity())
                         .cost(new Money(reservationItemDto.cost()))
                         .build())

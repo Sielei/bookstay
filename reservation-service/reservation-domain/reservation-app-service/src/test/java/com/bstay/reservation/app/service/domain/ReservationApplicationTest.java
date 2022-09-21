@@ -50,7 +50,7 @@ public class ReservationApplicationTest {
         createReservationCommand = CreateReservationCommand.builder()
                 .checkinDate(new Date(2022, Calendar.SEPTEMBER, 15))
                 .checkoutDate(new Date(2022, Calendar.SEPTEMBER, 22))
-                .reservationItemDtos(List.of(
+                .reservationItems(List.of(
                         ReservationItemDto.builder()
                                 .roomId(UUID.fromString("a91cde7b-54e9-4c08-bf51-f344b92bb7e0"))
                                 .roomOption(UUID.fromString("0da64ad5-fe6c-4539-9da7-a64be5404eeb"))
@@ -70,7 +70,7 @@ public class ReservationApplicationTest {
         createReservationWithWrongReservationTotalCommand = CreateReservationCommand.builder()
                 .checkinDate(new Date(2022, Calendar.SEPTEMBER, 15))
                 .checkoutDate(new Date(2022, Calendar.SEPTEMBER, 22))
-                .reservationItemDtos(List.of(
+                .reservationItems(List.of(
                         ReservationItemDto.builder()
                                 .roomId(UUID.fromString("a91cde7b-54e9-4c08-bf51-f344b92bb7e0"))
                                 .roomOption(UUID.fromString("0da64ad5-fe6c-4539-9da7-a64be5404eeb"))

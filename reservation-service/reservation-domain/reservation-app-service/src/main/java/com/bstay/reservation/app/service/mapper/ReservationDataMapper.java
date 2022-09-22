@@ -5,6 +5,7 @@ import com.bstay.domain.valueobject.RoomId;
 import com.bstay.domain.valueobject.RoomOptionId;
 import com.bstay.reservation.app.service.dto.CreateReservationCommand;
 import com.bstay.reservation.app.service.dto.CreateReservationResponse;
+import com.bstay.reservation.app.service.dto.FindReservationResponse;
 import com.bstay.reservation.app.service.dto.ReservationItemDto;
 import com.bstay.reservation.domain.entity.Reservation;
 import com.bstay.reservation.domain.entity.ReservationItem;
@@ -40,5 +41,13 @@ public class ReservationDataMapper {
                         .cost(new Money(reservationItemDto.cost()))
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public FindReservationResponse reservationToFindReservationResponse(Reservation reservation) {
+        return FindReservationResponse.builder()
+                .checkinDate(reservation.getCheckInDate())
+                .checkoutDate(reservation.getCheckoutDate())
+                .reservationTotal(reservation.getReservationTotal().getAmount())
+                .build();
     }
 }

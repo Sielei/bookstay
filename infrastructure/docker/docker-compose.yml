@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.0.1
+    image: confluentinc/cp-zookeeper:${KAFKA_VERSION}
     container_name: zookeeper
     restart: unless-stopped
     ports:
@@ -12,14 +12,15 @@ services:
     healthcheck:
       test: "echo stat | nc localhost $$ZOOKEEPER_CLIENT_PORT"
 
-  kafka:
-    image: confluentinc/cp-kafka:7.0.1
-    container_name: kafka
+
+  kafka-broker-1:
+    image: confluentinc/cp-kafka:${KAFKA_VERSION}
+    container_name: kafka-broker-1
     restart: unless-stopped
     depends_on:
       - zookeeper
     ports:
-      - "29092:29092"
+      - "19092:19092"
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
@@ -28,13 +29,36 @@ services:
       KAFKA_DELETE_TOPIC_ENABLE: "true"
     healthcheck:
       test: [ "CMD", "nc", "-z", "localhost", "9092" ]
+    networks:
+      - ${NETWORK:-kafka}
+
+  kafka-broker-2:
+    image: confluentinc/cp-kafka:${KAFKA_VERSION}
+    container_name: kafka-broker-2
+    restart: unless-stopped
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:29092"
+
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "9092" ]
+    networks:
+      - ${NETWORK:-kafka}
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:7.0.1
+    image: confluentinc/cp-schema-registry:${KAFKA_VERSION}
     container_name: schema-registry
     restart: unless-stopped
     depends_on:
-      - kafka
+      - kafka-broker-1
+      - kafka-broker-2
     ports:
       - "8081:8081"
     environment:
@@ -43,6 +67,9 @@ services:
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
     healthcheck:
       test: "curl -f http://localhost:8081 || exit 1"
+
+    networks:
+      - ${NETWORK:-kafka}
 
   schema-registry-ui:
     image: landoop/schema-registry-ui:0.9.5
@@ -56,14 +83,17 @@ services:
       PROXY: "true"
     healthcheck:
       test: "wget --quiet --tries=1 --spider http://localhost:8000 || exit 1"
+    networks:
+      - bookstay
 
   kafka-rest-proxy:
-    image: confluentinc/cp-kafka-rest:7.0.1
+    image: confluentinc/cp-kafka-rest:${KAFKA_VERSION}
     container_name: kafka-rest-proxy
     restart: unless-stopped
     depends_on:
       - zookeeper
-      - kafka
+      - kafka-broker-1
+      - kafka-broker-2
     ports:
       - "8082:8082"
     environment:
@@ -112,3 +142,8 @@ services:
     command: -Dpidfile.path=/dev/null
     healthcheck:
       test: "curl -f http://localhost:9000 || exit 1"
+
+
+networks:
+  bookstay:
+    driver: bridge

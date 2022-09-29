@@ -1,0 +1,24 @@
+version: "3.3"
+services:
+  kafka-init-service:
+    image: confluentinc/cp-kafka:${KAFKA_VERSION}
+    entrypoint: ['/bin/sh', '-c']
+    command: |
+      "
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --list
+      
+      echo -e 'Deleting topics'
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --topic reservation-created --delete --if-exists
+      
+      echo -e 'Creating kafka topics'
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic reservation-created --replication-factor 2 --partitions 3
+      
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --list
+      "
+    networks:
+      - ${NETWORK:-kafka}
+
+networks:
+  bookstay:
+    driver: bridge
